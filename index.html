@@ -2,131 +2,133 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>El Sudoku Canadiense de Ani 🍁</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&display=swap');
 
     :root {
       --red-canada: #C8102E;
       --red-dark: #8A0B1E;
       --cream: #FAF6F0;
-      --pine: #2D5A27;
-      --wood: #D4A373;
-      --dark: #2B2D42;
+      --pine: #1E3F20;
+      --dark: #1A1A1A;
+      --board-border: #2B2D42;
     }
 
     * {
       box-sizing: border-box;
       user-select: none;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
       font-family: 'Fredoka', sans-serif;
-      background: linear-gradient(135deg, #FFEEEE 0%, #FAF6F0 50%, #E2E8F0 100%);
+      background: linear-gradient(180deg, #FFF0F0 0%, #FAF6F0 100%);
       color: var(--dark);
       margin: 0;
-      padding: 15px;
+      padding: 8px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: space-between;
       min-height: 100vh;
+      overflow: hidden; /* Evita scrolls incómodos en móvil */
     }
 
+    /* HEADER COMPACTO */
     .header-container {
       text-align: center;
-      margin-bottom: 15px;
+      width: 100%;
+      max-width: 500px;
+      margin-bottom: 4px;
     }
 
     h1 {
       color: var(--red-canada);
-      font-size: 2.2rem;
+      font-size: clamp(1.2rem, 5vw, 1.8rem);
       margin: 0;
-      text-shadow: 2px 2px 0px white, 4px 4px 0px rgba(0,0,0,0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
+      text-shadow: 1px 1px 0px white;
     }
 
     .welcome-ani {
       background: var(--red-canada);
       color: white;
-      padding: 6px 18px;
-      border-radius: 20px;
-      font-size: 1rem;
-      font-weight: 600;
+      padding: 2px 12px;
+      border-radius: 12px;
+      font-size: clamp(0.75rem, 3.5vw, 0.9rem);
+      font-weight: 700;
       display: inline-block;
-      margin-top: 5px;
-      box-shadow: 0 4px 10px rgba(200, 16, 46, 0.3);
+      margin-top: 2px;
     }
 
+    /* CONTROLES */
     .controls-panel {
       display: flex;
-      gap: 10px;
-      margin-bottom: 15px;
-      flex-wrap: wrap;
+      gap: 6px;
+      width: 100%;
+      max-width: 500px;
       justify-content: center;
+      margin-bottom: 6px;
     }
 
     select, button {
       font-family: inherit;
-      font-size: 1rem;
-      font-weight: 600;
-      padding: 10px 16px;
-      border-radius: 12px;
+      font-size: clamp(0.8rem, 3.5vw, 0.95rem);
+      font-weight: 700;
+      padding: 6px 10px;
+      border-radius: 10px;
       border: 2px solid var(--dark);
       cursor: pointer;
-      transition: all 0.2s ease;
     }
 
     select {
       background-color: white;
-      color: var(--dark);
+      flex: 1;
+      max-width: 110px;
     }
 
     .btn-primary {
       background-color: var(--red-canada);
       color: white;
       border-color: var(--red-dark);
-      box-shadow: 0 4px 0 var(--red-dark);
-    }
-
-    .btn-primary:active {
-      transform: translateY(2px);
-      box-shadow: 0 2px 0 var(--red-dark);
+      flex: 1;
     }
 
     .btn-secondary {
       background-color: white;
       color: var(--dark);
-      box-shadow: 0 4px 0 var(--dark);
+      flex: 1;
     }
 
-    .btn-secondary:active {
-      transform: translateY(2px);
-      box-shadow: 0 2px 0 var(--dark);
-    }
-
-    /* TABLERO DE SUDOKU */
-    .sudoku-container {
-      background: white;
-      padding: 12px;
-      border-radius: 20px;
-      border: 4px solid var(--red-canada);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    /* TABLERO DE SUDOKU MÁXIMO TAMAÑO */
+    .sudoku-wrapper {
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       position: relative;
+      flex-grow: 1;
+    }
+
+    .sudoku-container {
+      background: var(--board-border);
+      padding: 4px;
+      border-radius: 12px;
+      border: 3px solid var(--red-canada);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      width: min(96vw, 500px);
+      height: min(96vw, 500px);
     }
 
     .grid {
       display: grid;
       grid-template-columns: repeat(9, 1fr);
+      grid-template-rows: repeat(9, 1fr);
       width: 100%;
-      max-width: 450px;
-      height: calc(100vw - 60px);
-      max-height: 450px;
-      border: 3px solid var(--dark);
-      background-color: var(--dark);
+      height: 100%;
+      background-color: var(--board-border);
       gap: 1px;
     }
 
@@ -135,25 +137,23 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
+      font-size: clamp(1.2rem, 6.5vw, 2.2rem);
       font-weight: 700;
       cursor: pointer;
-      transition: background 0.2s;
     }
 
-    /* Bordes gruesos para las regiones de 3x3 */
-    .cell:nth-child(3n) { border-right: 2px solid var(--dark); }
+    /* Separación clara de cuadrículas 3x3 */
+    .cell:nth-child(3n) { border-right: 3px solid var(--board-border); }
     .cell:nth-child(9n) { border-right: none; }
-    .cell-row-2, .cell-row-5 { border-bottom: 2px solid var(--dark); }
+    .cell-row-2, .cell-row-5 { border-bottom: 3px solid var(--board-border); }
 
     .cell.fixed {
-      background-color: #F3F4F6;
+      background-color: #F0F2F5;
       color: var(--dark);
-      cursor: not-allowed;
     }
 
     .cell.selected {
-      background-color: #FFE3E3 !important;
+      background-color: #FFD2D2 !important;
     }
 
     .cell.user-entered {
@@ -161,65 +161,65 @@
     }
 
     .cell.error {
-      background-color: #FFC9C9;
-      color: #D32F2F;
+      background-color: #FFB3B3;
+      color: #B71C1C;
     }
 
-    /* TECLADO NUMÉRICO */
+    /* TECLADO NUMÉRICO OPTIMIZADO */
     .numpad {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
+      gap: 6px;
       width: 100%;
-      max-width: 450px;
-      margin-top: 15px;
+      max-width: 500px;
+      margin-top: 6px;
+      margin-bottom: 4px;
     }
 
     .num-btn {
       background: white;
       border: 2px solid var(--dark);
       border-radius: 10px;
-      padding: 12px 0;
-      font-size: 1.2rem;
+      padding: clamp(10px, 3vh, 16px) 0;
+      font-size: clamp(1.2rem, 5vw, 1.6rem);
       font-weight: 700;
       color: var(--dark);
       box-shadow: 0 3px 0 var(--dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .num-btn:active {
       transform: translateY(2px);
       box-shadow: 0 1px 0 var(--dark);
+      background-color: #FFF0F0;
     }
 
     .num-btn.erase {
-      background: #E5E7EB;
-      grid-column: span 1;
+      background: #EAECEE;
+      font-size: clamp(0.9rem, 3.5vw, 1.1rem);
     }
 
-    /* MENSAJE DE VICTORIA */
+    /* OVERLAY DE VICTORIA */
     .win-overlay {
       display: none;
       position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 16px;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 12px;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 20px;
-      animation: pop 0.3s ease;
+      padding: 15px;
+      z-index: 10;
     }
 
     .win-overlay h2 {
       color: var(--red-canada);
-      font-size: 2rem;
-      margin-bottom: 10px;
-    }
-
-    @keyframes pop {
-      0% { transform: scale(0.8); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
+      font-size: clamp(1.5rem, 6vw, 2.2rem);
+      margin: 0 0 10px 0;
     }
   </style>
 </head>
@@ -227,7 +227,7 @@
 
   <div class="header-container">
     <h1>🍁 Sudoku Canadiense 🏔️</h1>
-    <div class="welcome-ani">¡A jugar, Ani! 🌲</div>
+    <div class="welcome-ani">¡Para Ani! 🌲</div>
   </div>
 
   <div class="controls-panel">
@@ -236,17 +236,19 @@
       <option value="medium" selected>Medio 🐻</option>
       <option value="hard">Difícil 🐺</option>
     </select>
-    <button class="btn-primary" onclick="newGame()">Nuevo Juego</button>
-    <button class="btn-secondary" onclick="checkSolution()">Verificar</button>
+    <button class="btn-primary" onclick="newGame()">Nuevo</button>
+    <button class="btn-secondary" onclick="checkSolution()">Comprobar</button>
   </div>
 
-  <div class="sudoku-container">
-    <div class="grid" id="grid"></div>
-    
+  <div class="sudoku-wrapper">
+    <div class="sudoku-container">
+      <div class="grid" id="grid"></div>
+    </div>
+
     <div class="win-overlay" id="win-screen">
-      <h2>🎉 ¡Felicidades, Ani! 🎉</h2>
-      <p style="font-size: 1.2rem; font-weight: 600;">¡Has resuelto el Sudoku como una auténtica exploradora canadiense! 🇨🇦🍁</p>
-      <button class="btn-primary" onclick="newGame()">Jugar Otra Vez</button>
+      <h2>🎉 ¡Increíble, Ani! 🎉</h2>
+      <p style="font-size: 1.1rem; font-weight: 600;">¡Has completado todo el tablero canadiense con éxito! 🇨🇦🍁</p>
+      <button class="btn-primary" style="padding: 12px 20px; flex: none;" onclick="newGame()">Jugar de Nuevo</button>
     </div>
   </div>
 
@@ -260,7 +262,7 @@
     <button class="num-btn" onclick="inputNumber(7)">7</button>
     <button class="num-btn" onclick="inputNumber(8)">8</button>
     <button class="num-btn" onclick="inputNumber(9)">9</button>
-    <button class="num-btn erase" onclick="inputNumber(null)">✏️ Borrar</button>
+    <button class="num-btn erase" onclick="inputNumber(null)">🗑️ Borrar</button>
   </div>
 
   <script>
@@ -269,13 +271,11 @@
     let userBoard = [];
     let selectedCell = null;
 
-    // Generador de Sudokus válidos
     function generateSudoku() {
       let board = Array.from({ length: 9 }, () => Array(9).fill(0));
       solveSudoku(board);
       solutionBoard = JSON.parse(JSON.stringify(board));
 
-      // Quitar números según la dificultad
       const diff = document.getElementById('difficulty').value;
       let removeCount = diff === 'easy' ? 30 : diff === 'medium' ? 42 : 54;
 
@@ -326,7 +326,6 @@
       return true;
     }
 
-    // Renderizar tablero
     function renderBoard() {
       const grid = document.getElementById('grid');
       grid.innerHTML = '';
@@ -354,7 +353,7 @@
     }
 
     function selectCell(r, c, cellElement) {
-      if (initialBoard[r][c] !== 0) return; // No seleccionar celdas fijas
+      if (initialBoard[r][c] !== 0) return;
 
       document.querySelectorAll('.cell').forEach(el => el.classList.remove('selected'));
       selectedCell = { r, c, element: cellElement };
@@ -368,7 +367,6 @@
       userBoard[r][c] = num || 0;
       renderBoard();
       
-      // Volver a seleccionar la casilla tras re-renderizar
       const newIndex = r * 9 + c;
       const newCell = document.getElementById('grid').children[newIndex];
       selectCell(r, c, newCell);
@@ -376,7 +374,6 @@
       checkWin();
     }
 
-    // Teclado físico
     window.addEventListener('keydown', (e) => {
       if (!selectedCell) return;
       if (e.key >= '1' && e.key <= '9') {
@@ -403,7 +400,7 @@
       }
 
       if (!errorsFound) {
-        alert("¡Vas súper bien Ani, no hay errores por ahora! 🌲");
+        alert("¡Todo perfecto hasta ahora, Ani! 🌲");
       }
     }
 
