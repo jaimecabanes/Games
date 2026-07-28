@@ -1,1 +1,358 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>El Juego de Pi y Ani 🌟</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&display=swap');
+
+    :root {
+      --purple-primary: #6C5CE7;
+      --purple-dark: #4834D4;
+      --yellow-star: #FDCB6E;
+      --green-correct: #00B894;
+      --red-wrong: #FF7675;
+      --dark: #2D3436;
+      --light-bg: #F9F7FE;
+    }
+
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: 'Fredoka', sans-serif;
+      background: linear-gradient(180deg, #E0D7FF 0%, var(--light-bg) 100%);
+      color: var(--dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px;
+    }
+
+    /* BOTÓN VOLVER AL MENÚ */
+    .btn-back {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: white;
+      border: 2px solid var(--dark);
+      border-radius: 10px;
+      padding: 6px 12px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--dark);
+      text-decoration: none;
+      box-shadow: 0 3px 0 var(--dark);
+      z-index: 20;
+    }
+
+    .header {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    h1 {
+      color: var(--purple-primary);
+      font-size: clamp(1.3rem, 5vw, 1.8rem);
+      margin: 0;
+    }
+
+    .subtitle {
+      font-size: clamp(0.85rem, 3.5vw, 1rem);
+      color: #636E72;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    /* SELECCIÓN DE CATEGORÍAS */
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+      max-width: 360px;
+      margin: auto 0;
+    }
+
+    .cat-btn {
+      background: white;
+      border: 3px solid var(--dark);
+      border-radius: 16px;
+      padding: 15px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 5px 0 var(--dark);
+      transition: transform 0.1s ease;
+    }
+
+    .cat-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 var(--dark);
+    }
+
+    .cat-icon {
+      font-size: 2.2rem;
+    }
+
+    .cat-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    /* PANTALLA DE PREGUNTA */
+    .game-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 360px;
+      margin: auto 0;
+    }
+
+    .question-card {
+      background: white;
+      border: 3px solid var(--dark);
+      border-radius: 18px;
+      padding: 15px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 6px 0 var(--dark);
+      margin-bottom: 15px;
+    }
+
+    .question-text {
+      font-size: clamp(1.1rem, 4.5vw, 1.3rem);
+      font-weight: 700;
+      color: var(--purple-primary);
+      margin-bottom: 5px;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .opt-btn {
+      background: white;
+      border: 3px solid var(--dark);
+      border-radius: 14px;
+      padding: 12px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--dark);
+      box-shadow: 0 4px 0 var(--dark);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .opt-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 var(--dark);
+    }
+
+    /* PANTALLA DE VICTORIA */
+    .win-overlay {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.98);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+      z-index: 30;
+    }
+
+    .win-overlay h2 {
+      color: var(--purple-primary);
+      font-size: 2rem;
+      margin: 0 0 10px 0;
+    }
+
+    .btn-action {
+      background: var(--purple-primary);
+      color: white;
+      border: 3px solid var(--dark);
+      border-radius: 12px;
+      padding: 12px 24px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      box-shadow: 0 4px 0 var(--dark);
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    .btn-action:active {
+      transform: translateY(2px);
+      box-shadow: none;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="../index.html" class="btn-back">⬅️ Menú</a>
+
+  <div class="header">
+    <h1>🙋‍♂️ Preguntas con Pi 🙋‍♀️</h1>
+    <div class="subtitle" id="sub-title">Elige una categoría para jugar con Ani</div>
+  </div>
+
+  <!-- PANTALLA 1: SELECCIÓN DE CATEGORÍAS -->
+  <div class="categories-grid" id="categories-screen">
+    <button class="cat-btn" onclick="selectCategory('animales')">
+      <span class="cat-icon">🦁</span>
+      <span class="cat-title">Animales</span>
+    </button>
+    <button class="cat-btn" onclick="selectCategory('colores')">
+      <span class="cat-icon">🎨</span>
+      <span class="cat-title">Colores</span>
+    </button>
+    <button class="cat-btn" onclick="selectCategory('naturaleza')">
+      <span class="cat-icon">🌿</span>
+      <span class="cat-title">Naturaleza</span>
+    </button>
+    <button class="cat-btn" onclick="selectCategory('cuentos')">
+      <span class="cat-icon">🪄</span>
+      <span class="cat-title">Cuentos</span>
+    </button>
+  </div>
+
+  <!-- PANTALLA 2: JUEGO DE PREGUNTAS -->
+  <div class="game-screen" id="game-screen">
+    <div class="question-card">
+      <div class="question-text" id="question-text">¿Cargando pregunta?</div>
+    </div>
+    <div class="options-grid" id="options-container">
+      <!-- Opciones dinámicas -->
+    </div>
+  </div>
+
+  <!-- PANTALLA DE VICTORIA -->
+  <div class="win-overlay" id="win-screen">
+    <h2>🎉 ¡Bravo, Ani! 🎉</h2>
+    <p style="font-size: 1.2rem; font-weight: 700;" id="win-text">¡Has respondido todas las preguntas de Pi!</p>
+    <button class="btn-action" onclick="showCategories()">Elegir otra categoría</button>
+  </div>
+
+  <script>
+    const questionsBank = {
+      animales: [
+        { q: "¿Qué animal hace 'Miau'?", opts: ["🐶 Perro", "🐱 Gato", "🐮 Vaca"], ans: 1 },
+        { q: "¿Quién vive en el agua y nada mucho?", opts: ["🐟 Pez", "🦁 León", "Pájaro 🐦"], ans: 0 },
+        { q: "¿Qué animal tiene una trompa muy larga?", opts: ["🐵 Mono", "🐘 Elefante", "🐰 Conejo"], ans: 1 }
+      ],
+      colores: [
+        { q: "¿De qué color son las bananas?", opts: ["🔴 Rojo", "🟡 Amarillo", "🔵 Azul"], ans: 1 },
+        { q: "Si mezclas rojo y blanco, ¿qué sale?", opts: ["🌸 Rosa", "🟢 Verde", "⚫ Negro"], ans: 0 },
+        { q: "¿De qué color es la hierba?", opts: ["🟣 Morado", "🟠 Naranja", "🟢 Verde"], ans: 2 }
+      ],
+      naturaleza: [
+        { q: "¿Qué sale de día y nos da calor?", opts: ["☀️ El Sol", "🌙 La Luna", "⭐ Las Estrellas"], ans: 0 },
+        { q: "¿Qué cae del cielo cuando llueve?", opts: ["🍎 Manzanas", "💧 Agua", "🎈 Globos"], ans: 1 },
+        { q: "¿Dónde crecen las hojas y las frutas?", opts: ["🌳 En los árboles", "🛋️ En el sofá", "🚗 En el coche"], ans: 0 }
+      ],
+      cuentos: [
+        { q: "¿De qué material era la casa más fuerte de los 3 cerditos?", opts: ["🌾 Paja", "🪵 Madera", "🧱 Ladrillos"], ans: 2 },
+        { q: "¿Quién perdió un zapato de cristal?", opts: ["👸 Cenicienta", "🧜‍♀️ Sirenita", "👸 Blancanieves"], ans: 0 },
+        { q: "¿Qué fruta mordió Blancanieves?", opts: ["🍌 Plátano", "🍎 Manzana", "🍇 Uvas"], ans: 1 }
+      ]
+    };
+
+    let currentQuestions = [];
+    let currentQIndex = 0;
+
+    function speak(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'es-ES';
+        utterance.rate = 0.95;
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+
+    function selectCategory(categoryKey) {
+      currentQuestions = questionsBank[categoryKey];
+      currentQIndex = 0;
+
+      document.getElementById('categories-screen').style.display = 'none';
+      document.getElementById('game-screen').style.display = 'flex';
+      document.getElementById('sub-title').innerText = "¡A responder!";
+
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      const qData = currentQuestions[currentQIndex];
+      document.getElementById('question-text').innerText = qData.q;
+      speak(qData.q);
+
+      const optsContainer = document.getElementById('options-container');
+      optsContainer.innerHTML = '';
+
+      qData.opts.forEach((optText, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.innerText = optText;
+        btn.onclick = () => checkAnswer(index, qData.ans);
+        optsContainer.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selectedIndex, correctIndex) {
+      if (selectedIndex === correctIndex) {
+        speak("¡Muy bien, Ani!");
+        currentQIndex++;
+
+        if (currentQIndex < currentQuestions.length) {
+          setTimeout(loadQuestion, 1200);
+        } else {
+          setTimeout(() => {
+            speak("¡Fantástico Ani! Pi está muy orgulloso de ti.");
+            document.getElementById('win-screen').style.display = 'flex';
+          }, 800);
+        }
+      } else {
+        speak("¡Casi! Prueba otra opción.");
+      }
+    }
+
+    function showCategories() {
+      document.getElementById('win-screen').style.display = 'none';
+      document.getElementById('game-screen').style.display = 'none';
+      document.getElementById('categories-screen').style.display = 'grid';
+      document.getElementById('sub-title').innerText = "Elige una categoría para jugar con Ani";
+      speak("Elige una categoría");
+    }
+
+    window.onload = () => {
+      speak("¡Hola Ani! Vamos a jugar a las preguntas con Pi.");
+    };
+  </script>
+</body>
+</html>
