@@ -1,215 +1,230 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>El Juego de Pi y Ani 🌟</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Desafío Canadiense de Pi 🍁</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,300&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
 
     :root {
-      --purple-primary: #6C5CE7;
-      --purple-dark: #4834D4;
-      --yellow-star: #FDCB6E;
-      --green-correct: #00B894;
-      --red-wrong: #FF7675;
-      --dark: #2D3436;
-      --light-bg: #F9F7FE;
+      --red-canada: #C8102E;
+      --red-dark: #8B0000;
+      --slate-dark: #0F172A;
+      --slate-card: #1E293B;
+      --gold: #D97706;
+      --bg-light: #F8FAFC;
+      --text-main: #334155;
     }
 
     * {
       box-sizing: border-box;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    html, body {
-      width: 100%;
-      height: 100%;
       margin: 0;
       padding: 0;
-      overflow: hidden;
     }
 
     body {
-      font-family: 'Fredoka', sans-serif;
-      background: linear-gradient(180deg, #E0D7FF 0%, var(--light-bg) 100%);
-      color: var(--dark);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg-light);
+      color: var(--text-main);
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: space-between;
-      padding: 15px;
+      padding: 20px 15px;
     }
 
-    /* BOTÓN VOLVER AL MENÚ */
     .btn-back {
       position: absolute;
-      top: 12px;
-      left: 12px;
+      top: 15px;
+      left: 15px;
       background: white;
-      border: 2px solid var(--dark);
-      border-radius: 10px;
-      padding: 6px 12px;
-      font-size: 0.9rem;
+      border: 2px solid var(--slate-dark);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 0.85rem;
       font-weight: 700;
-      color: var(--dark);
+      color: var(--slate-dark);
       text-decoration: none;
-      box-shadow: 0 3px 0 var(--dark);
-      z-index: 20;
+      box-shadow: 2px 2px 0 var(--slate-dark);
+      transition: all 0.2s ease;
     }
 
-    .header {
+    .btn-back:hover {
+      background: var(--slate-dark);
+      color: white;
+    }
+
+    header {
       text-align: center;
-      margin-top: 15px;
+      margin-top: 35px;
+      margin-bottom: 25px;
+      max-width: 600px;
     }
 
     h1 {
-      color: var(--purple-primary);
-      font-size: clamp(1.3rem, 5vw, 1.8rem);
-      margin: 0;
+      font-family: 'Merriweather', serif;
+      color: var(--red-canada);
+      font-size: clamp(1.6rem, 5vw, 2.2rem);
+      margin-bottom: 6px;
     }
 
     .subtitle {
-      font-size: clamp(0.85rem, 3.5vw, 1rem);
-      color: #636E72;
-      font-weight: 700;
-      margin-top: 2px;
-    }
-
-    /* SELECCIÓN DE CATEGORÍAS */
-    .categories-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      width: 100%;
-      max-width: 360px;
-      margin: auto 0;
-    }
-
-    .cat-btn {
-      background: white;
-      border: 3px solid var(--dark);
-      border-radius: 16px;
-      padding: 15px 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      cursor: pointer;
-      box-shadow: 0 5px 0 var(--dark);
-      transition: transform 0.1s ease;
-    }
-
-    .cat-btn:active {
-      transform: translateY(3px);
-      box-shadow: 0 2px 0 var(--dark);
-    }
-
-    .cat-icon {
-      font-size: 2.2rem;
-    }
-
-    .cat-title {
       font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--dark);
+      color: #64748B;
+      font-style: italic;
     }
 
-    /* PANTALLA DE PREGUNTA */
-    .game-screen {
+    .container {
+      width: 100%;
+      max-width: 650px;
+    }
+
+    /* VISTA CATEGORÍAS */
+    .grid-categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 15px;
+    }
+
+    .cat-card {
+      background: white;
+      border: 2px solid #E2E8F0;
+      border-left: 6px solid var(--red-canada);
+      border-radius: 12px;
+      padding: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .cat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+      border-color: var(--red-canada);
+    }
+
+    .cat-card h3 {
+      font-family: 'Merriweather', serif;
+      color: var(--slate-dark);
+      font-size: 1.1rem;
+      margin-bottom: 6px;
+    }
+
+    .cat-card p {
+      font-size: 0.85rem;
+      color: #64748B;
+      line-height: 1.4;
+    }
+
+    /* VISTA PREGUNTA */
+    .quiz-view {
       display: none;
       flex-direction: column;
-      align-items: center;
-      width: 100%;
-      max-width: 360px;
-      margin: auto 0;
+      gap: 15px;
     }
 
-    .question-card {
+    .question-box {
       background: white;
-      border: 3px solid var(--dark);
-      border-radius: 18px;
-      padding: 15px;
-      width: 100%;
-      text-align: center;
-      box-shadow: 0 6px 0 var(--dark);
-      margin-bottom: 15px;
+      border: 2px solid var(--slate-dark);
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 4px 4px 0 var(--slate-dark);
+    }
+
+    .question-cat {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+      color: var(--red-canada);
+      margin-bottom: 8px;
     }
 
     .question-text {
-      font-size: clamp(1.1rem, 4.5vw, 1.3rem);
-      font-weight: 700;
-      color: var(--purple-primary);
-      margin-bottom: 5px;
+      font-family: 'Merriweather', serif;
+      font-size: 1.2rem;
+      color: var(--slate-dark);
+      line-height: 1.5;
     }
 
-    .options-grid {
+    .options-list {
       display: flex;
       flex-direction: column;
       gap: 10px;
-      width: 100%;
     }
 
     .opt-btn {
       background: white;
-      border: 3px solid var(--dark);
-      border-radius: 14px;
-      padding: 12px;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--dark);
-      box-shadow: 0 4px 0 var(--dark);
+      border: 2px solid #CBD5E1;
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--slate-dark);
+      text-align: left;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
+      transition: all 0.2s ease;
+      line-height: 1.4;
     }
 
-    .opt-btn:active {
-      transform: translateY(2px);
-      box-shadow: 0 2px 0 var(--dark);
+    .opt-btn:hover {
+      border-color: var(--slate-dark);
+      background: #F1F5F9;
     }
 
-    /* PANTALLA DE VICTORIA */
-    .win-overlay {
+    .explanation-box {
       display: none;
-      position: absolute;
-      inset: 0;
-      background: rgba(255, 255, 255, 0.98);
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 20px;
-      z-index: 30;
+      background: #EFF6FF;
+      border: 2px solid #93C5FD;
+      border-radius: 10px;
+      padding: 15px;
+      font-size: 0.9rem;
+      color: #1E3A8A;
+      line-height: 1.5;
+      margin-top: 10px;
     }
 
-    .win-overlay h2 {
-      color: var(--purple-primary);
-      font-size: 2rem;
-      margin: 0 0 10px 0;
-    }
-
-    .btn-action {
-      background: var(--purple-primary);
+    .btn-next {
+      display: none;
+      align-self: flex-end;
+      background: var(--red-canada);
       color: white;
-      border: 3px solid var(--dark);
-      border-radius: 12px;
+      border: none;
+      border-radius: 8px;
       padding: 12px 24px;
-      font-size: 1.1rem;
+      font-size: 0.95rem;
       font-weight: 700;
-      box-shadow: 0 4px 0 var(--dark);
       cursor: pointer;
-      margin-top: 15px;
+      margin-top: 10px;
+      box-shadow: 2px 2px 0 var(--red-dark);
     }
 
-    .btn-action:active {
-      transform: translateY(2px);
-      box-shadow: none;
+    .btn-next:hover {
+      background: var(--red-dark);
+    }
+
+    /* PANTALLA RESULTADO */
+    .result-view {
+      display: none;
+      background: white;
+      border: 2px solid var(--slate-dark);
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 4px 4px 0 var(--slate-dark);
+    }
+
+    .result-view h2 {
+      font-family: 'Merriweather', serif;
+      color: var(--red-canada);
+      margin-bottom: 12px;
+    }
+
+    .result-view p {
+      font-size: 1rem;
+      margin-bottom: 20px;
+      line-height: 1.6;
     }
   </style>
 </head>
@@ -217,142 +232,240 @@
 
   <a href="../index.html" class="btn-back">⬅️ Menú</a>
 
-  <div class="header">
-    <h1>🙋‍♂️ Preguntas con Pi 🙋‍♀️</h1>
-    <div class="subtitle" id="sub-title">Elige una categoría para jugar con Ani</div>
-  </div>
+  <header>
+    <h1>Desafío Canadiense</h1>
+    <div class="subtitle">Un recorrido de alto nivel intelectual por la historia, literatura y cultura de Canadá</div>
+  </header>
 
-  <!-- PANTALLA 1: SELECCIÓN DE CATEGORÍAS -->
-  <div class="categories-grid" id="categories-screen">
-    <button class="cat-btn" onclick="selectCategory('animales')">
-      <span class="cat-icon">🦁</span>
-      <span class="cat-title">Animales</span>
-    </button>
-    <button class="cat-btn" onclick="selectCategory('colores')">
-      <span class="cat-icon">🎨</span>
-      <span class="cat-title">Colores</span>
-    </button>
-    <button class="cat-btn" onclick="selectCategory('naturaleza')">
-      <span class="cat-icon">🌿</span>
-      <span class="cat-title">Naturaleza</span>
-    </button>
-    <button class="cat-btn" onclick="selectCategory('cuentos')">
-      <span class="cat-icon">🪄</span>
-      <span class="cat-title">Cuentos</span>
-    </button>
-  </div>
+  <div class="container">
+    <!-- PANTALLA DE CATEGORÍAS -->
+    <div class="grid-categories" id="categories-view">
+      <div class="cat-card" onclick="startQuiz('historia')">
+        <h3>🏛️ Historia y Política</h3>
+        <p>Desde la Confederación de 1867 y la Révolution Tranquille hasta el constitucionalismo moderno.</p>
+      </div>
 
-  <!-- PANTALLA 2: JUEGO DE PREGUNTAS -->
-  <div class="game-screen" id="game-screen">
-    <div class="question-card">
-      <div class="question-text" id="question-text">¿Cargando pregunta?</div>
+      <div class="cat-card" onclick="startQuiz('literatura')">
+        <h3>📚 Literatura y Bellas Artes</h3>
+        <p>Premios Nobel, la narrativa del Group of Seven y las voces clave de las letras canadienses.</p>
+      </div>
+
+      <div class="cat-card" onclick="startQuiz('geografia')">
+        <h3>🏔️ Geografía Extrema y Escudo</h3>
+        <p>Formaciones geológicas precámbricas, hidrografía, geopolítica del Ártico y fronteras naturales.</p>
+      </div>
+
+      <div class="cat-card" onclick="startQuiz('pensamiento')">
+        <h3>💡 Pensamiento y Sociedad</h3>
+        <p>La teoría de los medios de McLuhan, la construcción del multiculturalismo y el derecho inuit.</p>
+      </div>
     </div>
-    <div class="options-grid" id="options-container">
-      <!-- Opciones dinámicas -->
-    </div>
-  </div>
 
-  <!-- PANTALLA DE VICTORIA -->
-  <div class="win-overlay" id="win-screen">
-    <h2>🎉 ¡Bravo, Ani! 🎉</h2>
-    <p style="font-size: 1.2rem; font-weight: 700;" id="win-text">¡Has respondido todas las preguntas de Pi!</p>
-    <button class="btn-action" onclick="showCategories()">Elegir otra categoría</button>
+    <!-- PANTALLA DE PREGUNTA -->
+    <div class="quiz-view" id="quiz-view">
+      <div class="question-box">
+        <div class="question-cat" id="q-cat">Categoría</div>
+        <div class="question-text" id="q-text">Pregunta...</div>
+      </div>
+
+      <div class="options-list" id="options-container">
+        <!-- Opciones dinámicas -->
+      </div>
+
+      <div class="explanation-box" id="explanation-box"></div>
+
+      <button class="btn-next" id="btn-next" onclick="nextQuestion()">Siguiente Pregunta ➔</button>
+    </div>
+
+    <!-- PANTALLA FINAL -->
+    <div class="result-view" id="result-view">
+      <h2 id="result-title">Módulo Completado</h2>
+      <p id="result-text">Has demostrado un profundo conocimiento sobre la realidad histórica y cultural canadiense.</p>
+      <button class="btn-next" style="display:inline-block;" onclick="resetQuiz()">Seleccionar otra categoría</button>
+    </div>
   </div>
 
   <script>
-    const questionsBank = {
-      animales: [
-        { q: "¿Qué animal hace 'Miau'?", opts: ["🐶 Perro", "🐱 Gato", "🐮 Vaca"], ans: 1 },
-        { q: "¿Quién vive en el agua y nada mucho?", opts: ["🐟 Pez", "🦁 León", "Pájaro 🐦"], ans: 0 },
-        { q: "¿Qué animal tiene una trompa muy larga?", opts: ["🐵 Mono", "🐘 Elefante", "🐰 Conejo"], ans: 1 }
+    const quizData = {
+      historia: [
+        {
+          q: "¿Qué norma jurídica del Parlamento británico estableció formalmente la creación del Dominio de Canadá el 1 de julio de 1867?",
+          opts: [
+            "El Tratado de París",
+            "El Acta de la América del Norte Británica",
+            "El Estatuto de Westminster",
+            "El Acta Proclamatoria de Quebec"
+          ],
+          ans: 1,
+          exp: "El Acta de la América del Norte Británica (British North America Act) unió las provincias de Canadá, Nueva Escocia y Nuevo Brunswick en una confederación domina."
+        },
+        {
+          q: "¿Qué proceso de rápida secularización, modernización del Estado y reforma social transformó Quebec durante la década de 1960?",
+          opts: [
+            "La Revolución de los Claveles",
+            "El Pacto de la Paz Social",
+            "La Revolución Tranquila (Révolution tranquille)",
+            "La Gran Transformación Laurentina"
+          ],
+          ans: 2,
+          exp: "Bajo el gobierno de Jean Lesage, Quebec pasó de una sociedad marcadamente tradicional y dominada por la Iglesia católica a un Estado de bienestar moderno y secularizado."
+        }
       ],
-      colores: [
-        { q: "¿De qué color son las bananas?", opts: ["🔴 Rojo", "🟡 Amarillo", "🔵 Azul"], ans: 1 },
-        { q: "Si mezclas rojo y blanco, ¿qué sale?", opts: ["🌸 Rosa", "🟢 Verde", "⚫ Negro"], ans: 0 },
-        { q: "¿De qué color es la hierba?", opts: ["🟣 Morado", "🟠 Naranja", "🟢 Verde"], ans: 2 }
+      literatura: [
+        {
+          q: "¿Qué autora canadiense fue galardonada con el Premio Nobel de Literatura en 2013, célebre por su maestría absoluta en el relato corto?",
+          opts: [
+            "Margaret Atwood",
+            "Alice Munro",
+            "Gabrielle Roy",
+            "Anne Hébert"
+          ],
+          ans: 1,
+          exp: "Alice Munro fue destacada por la Academia Sueca como la 'maestra del relato corto contemporáneo', retratando la vida rural y humana del suroeste de Ontario."
+        },
+        {
+          q: "El célebre 'Grupo de los Siete' (Group of Seven), activo a principios del siglo XX, es fundamental en la historia del arte canadiense por:",
+          opts: [
+            "Introducir el cubismo abstracto en las galerías de Montreal",
+            "Capturar el paisaje salvaje e indómito del Escudo Canadiense mediante un postimpresionismo distintivo",
+            "Pintar retratos alegóricos de los padres de la Confederación",
+            "Desarrollar la ilustración gráfica del arte folclórico del Atlántico"
+          ],
+          ans: 1,
+          exp: "Pintores como Tom Thomson (asociado) y Lawren Harris rompieron con la tradición académica europea para reflejar la majestuosidad agreste del paisaje norteño."
+        }
       ],
-      naturaleza: [
-        { q: "¿Qué sale de día y nos da calor?", opts: ["☀️ El Sol", "🌙 La Luna", "⭐ Las Estrellas"], ans: 0 },
-        { q: "¿Qué cae del cielo cuando llueve?", opts: ["🍎 Manzanas", "💧 Agua", "🎈 Globos"], ans: 1 },
-        { q: "¿Dónde crecen las hojas y las frutas?", opts: ["🌳 En los árboles", "🛋️ En el sofá", "🚗 En el coche"], ans: 0 }
+      geografia: [
+        {
+          q: "¿Qué vasta masa geológica de roca ígnea y metamórfica del Precámbrico abarca casi la mitad de la superficie terrestre de Canadá?",
+          opts: [
+            "Las Montañas Rocosas Septentrionales",
+            "La Cuenca del Beaufort",
+            "El Escudo Canadiense (Canadian Shield)",
+            "La Placa Laurentina de las Praderas"
+          ],
+          ans: 2,
+          exp: "El Escudo Canadiense es una de las formaciones geológicas más antiguas de la Tierra, caracterizada por su suelo poco profundo, abundantes lagos y riqueza en minerales."
+        },
+        {
+          q: "¿En qué cuerpo de agua canadiense, situado entre Nueva Escocia y Nuevo Brunswick, se registran las mareas más altas del planeta?",
+          opts: [
+            "La Bahía de Hudson",
+            "La Bahía de Fundy",
+            "El Estrecho de Georgia",
+            "El Golfo de San Lorenzo"
+          ],
+          ans: 1,
+          exp: "La Bahía de Fundy alcanza oscilaciones de marea de hasta 16 metros debido a la resonancia hidrodinámica de su particular geometría en forma de embudo."
+        }
       ],
-      cuentos: [
-        { q: "¿De qué material era la casa más fuerte de los 3 cerditos?", opts: ["🌾 Paja", "🪵 Madera", "🧱 Ladrillos"], ans: 2 },
-        { q: "¿Quién perdió un zapato de cristal?", opts: ["👸 Cenicienta", "🧜‍♀️ Sirenita", "👸 Blancanieves"], ans: 0 },
-        { q: "¿Qué fruta mordió Blancanieves?", opts: ["🍌 Plátano", "🍎 Manzana", "🍇 Uvas"], ans: 1 }
+      pensamiento: [
+        {
+          q: "¿Qué teórico de la comunicación canadiense formuló célebres conceptos como 'el medio es el mensaje' y 'la aldea global'?",
+          opts: [
+            "Harold Innis",
+            "Charles Taylor",
+            "Marshall McLuhan",
+            "Will Kymlicka"
+          ],
+          ans: 2,
+          exp: "Marshall McLuhan, profesor de la Universidad de Toronto, revolucionó los estudios culturales al analizar cómo las tecnologías de la información moldean la percepción humana."
+        },
+        {
+          q: "En 1999 se reorganizó la geografía política del Ártico canadiense para otorgar autogobierno a los pueblos inuit mediante la creación de:",
+          opts: [
+            "El Territorio de Nunavut",
+            "La Comarca de Labrador",
+            "El Distrito de Yukón Norte",
+            "La Autonomía del Mackenize"
+          ],
+          ans: 0,
+          exp: "Nunavut ('Nuestra Tierra' en inuktitut) se consolidó tras décadas de negociación como un hito internacional en los derechos y soberanía del pueblo inuit."
+        }
       ]
     };
 
+    let currentCategory = '';
     let currentQuestions = [];
-    let currentQIndex = 0;
+    let qIndex = 0;
+    let score = 0;
 
-    function speak(text) {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'es-ES';
-        utterance.rate = 0.95;
-        window.speechSynthesis.speak(utterance);
-      }
+    function startQuiz(catKey) {
+      currentCategory = catKey;
+      currentQuestions = quizData[catKey];
+      qIndex = 0;
+      score = 0;
+
+      document.getElementById('categories-view').style.display = 'none';
+      document.getElementById('quiz-view').style.display = 'flex';
+      document.getElementById('result-view').style.display = 'none';
+
+      renderQuestion();
     }
 
-    function selectCategory(categoryKey) {
-      currentQuestions = questionsBank[categoryKey];
-      currentQIndex = 0;
-
-      document.getElementById('categories-screen').style.display = 'none';
-      document.getElementById('game-screen').style.display = 'flex';
-      document.getElementById('sub-title').innerText = "¡A responder!";
-
-      loadQuestion();
-    }
-
-    function loadQuestion() {
-      const qData = currentQuestions[currentQIndex];
-      document.getElementById('question-text').innerText = qData.q;
-      speak(qData.q);
+    function renderQuestion() {
+      const q = currentQuestions[qIndex];
+      document.getElementById('q-cat').innerText = currentCategory.toUpperCase();
+      document.getElementById('q-text').innerText = q.q;
 
       const optsContainer = document.getElementById('options-container');
       optsContainer.innerHTML = '';
 
-      qData.opts.forEach((optText, index) => {
+      document.getElementById('explanation-box').style.display = 'none';
+      document.getElementById('btn-next').style.display = 'none';
+
+      q.opts.forEach((optText, index) => {
         const btn = document.createElement('button');
         btn.className = 'opt-btn';
         btn.innerText = optText;
-        btn.onclick = () => checkAnswer(index, qData.ans);
+        btn.onclick = () => checkAnswer(index, q.ans, q.exp, btn);
         optsContainer.appendChild(btn);
       });
     }
 
-    function checkAnswer(selectedIndex, correctIndex) {
-      if (selectedIndex === correctIndex) {
-        speak("¡Muy bien, Ani!");
-        currentQIndex++;
+    function checkAnswer(selectedIdx, correctIdx, expText, btnElement) {
+      const allBtns = document.querySelectorAll('.opt-btn');
+      allBtns.forEach(b => b.disabled = true);
 
-        if (currentQIndex < currentQuestions.length) {
-          setTimeout(loadQuestion, 1200);
-        } else {
-          setTimeout(() => {
-            speak("¡Fantástico Ani! Pi está muy orgulloso de ti.");
-            document.getElementById('win-screen').style.display = 'flex';
-          }, 800);
-        }
+      if (selectedIdx === correctIdx) {
+        btnElement.style.borderColor = '#16A34A';
+        btnElement.style.background = '#DCFCE7';
+        score++;
       } else {
-        speak("¡Casi! Prueba otra opción.");
+        btnElement.style.borderColor = '#DC2626';
+        btnElement.style.background = '#FEE2E2';
+        allBtns[correctIdx].style.borderColor = '#16A34A';
+        allBtns[correctIdx].style.background = '#DCFCE7';
+      }
+
+      const expBox = document.getElementById('explanation-box');
+      expBox.innerHTML = `<strong>Contexto:</strong> ${expText}`;
+      expBox.style.display = 'block';
+
+      document.getElementById('btn-next').style.display = 'inline-block';
+    }
+
+    function nextQuestion() {
+      qIndex++;
+      if (qIndex < currentQuestions.length) {
+        renderQuestion();
+      } else {
+        showResults();
       }
     }
 
-    function showCategories() {
-      document.getElementById('win-screen').style.display = 'none';
-      document.getElementById('game-screen').style.display = 'none';
-      document.getElementById('categories-screen').style.display = 'grid';
-      document.getElementById('sub-title').innerText = "Elige una categoría para jugar con Ani";
-      speak("Elige una categoría");
+    function showResults() {
+      document.getElementById('quiz-view').style.display = 'none';
+      document.getElementById('result-view').style.display = 'block';
+
+      document.getElementById('result-title').innerText = "Módulo Concluido";
+      document.getElementById('result-text').innerText = `Has obtenido ${score} de ${currentQuestions.length} respuestas correctas. Un desempeño académico notable en el conocimiento sobre Canadá.`;
     }
 
-    window.onload = () => {
-      speak("¡Hola Ani! Vamos a jugar a las preguntas con Pi.");
-    };
+    function resetQuiz() {
+      document.getElementById('result-view').style.display = 'none';
+      document.getElementById('categories-view').style.display = 'grid';
+    }
   </script>
 </body>
 </html>
